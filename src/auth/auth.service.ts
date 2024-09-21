@@ -1,55 +1,53 @@
-import { PrismaAdapter } from '@auth/prisma-adapter';
 import { Injectable } from '@nestjs/common';
-import {
-  Adapter,
+import type {
   AdapterAccount,
   AdapterSession,
   AdapterUser,
   VerificationToken,
-} from 'next-auth/adapters';
-import { PrismaService } from 'src/prisma.service';
+} from '@auth/core/adapters';
+import { AuthRepository } from './auth.repository';
 
 @Injectable()
 export class AuthService {
-  adapter: Adapter;
+  authRepository: AuthRepository;
 
-  constructor(prisma: PrismaService) {
-    this.adapter = PrismaAdapter(prisma);
+  constructor(authRepository: AuthRepository) {
+    this.authRepository = authRepository;
   }
 
   async createUser(user: AdapterUser) {
-    return await this.adapter.createUser(user);
+    return await this.authRepository.createUser(user);
   }
 
   async getUserByEmail(email: string) {
-    return await this.adapter.getUserByEmail(email);
+    return await this.authRepository.getUserByEmail(email);
   }
 
   async getUserByAccount(id: string, provider: string) {
-    return await this.adapter.getUserByAccount({
+    return await this.authRepository.getUserByAccount({
       providerAccountId: id,
       provider,
     });
   }
 
   async getUser(id: string) {
-    return await this.adapter.getUser(id);
+    return await this.authRepository.getUser(id);
   }
 
   async updateUser(user: Partial<AdapterUser> & Pick<AdapterUser, 'id'>) {
-    return await this.adapter.updateUser(user);
+    return await this.authRepository.updateUser(user);
   }
 
   async deleteUser(userId: string) {
-    return await this.adapter.deleteUser?.(userId);
+    return await this.authRepository.deleteUser?.(userId);
   }
 
   async linkAccount(account: AdapterAccount) {
-    return await this.adapter.linkAccount(account);
+    return await this.authRepository.linkAccount(account);
   }
 
   async unlinkAccount(id: string, provider: string) {
-    return await this.adapter.unlinkAccount?.({
+    return await this.authRepository.unlinkAccount?.({
       providerAccountId: id,
       provider,
     });
@@ -60,28 +58,39 @@ export class AuthService {
     userId: string;
     expires: Date;
   }) {
-    return await this.adapter.createSession(session);
+    return await this.authRepository.createSession(session);
   }
 
   async getSessionAndUser(sessionToken: string) {
-    return await this.adapter.getSessionAndUser(sessionToken);
+    return await this.authRepository.getSessionAndUser(sessionToken);
   }
 
   async updateSession(
     session: Partial<AdapterSession> & Pick<AdapterSession, 'sessionToken'>,
   ) {
-    return await this.adapter.updateSession(session);
+    return await this.authRepository.updateSession(session);
   }
 
   async deleteSession(sessionToken: string) {
-    return await this.adapter.deleteSession(sessionToken);
+    return await this.authRepository.deleteSession(sessionToken);
   }
 
   async createVerificationToken(verificationToken: VerificationToken) {
-    return await this.adapter.createVerificationToken?.(verificationToken);
+    return await this.authRepository.createVerificationToken?.(
+      verificationToken,
+    );
   }
 
-  async useVerificationToken({ identifier, token }) {
-    return await this.adapter.useVerificationToken?.({ identifier, token });
+  async useVerificationToken({
+    identifier,
+    token,
+  }: {
+    identifier: string;
+    token: string;
+  }) {
+    return await this.authRepository.useVerificationToken?.({
+      identifier,
+      token,
+    });
   }
 }

@@ -9,13 +9,13 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthService } from './auth.service';
-import {
+import type {
   AdapterAccount,
   AdapterSession,
   AdapterUser,
   VerificationToken,
-} from 'next-auth/adapters';
+} from '@auth/core/adapters';
+import { AuthService } from './auth.service';
 
 // TODO: Refactor, move it to separated module
 
