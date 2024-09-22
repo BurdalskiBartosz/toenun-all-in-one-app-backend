@@ -49,19 +49,19 @@ export class AuthRepository {
     return (account?.user as AdapterUser) ?? null;
   }
   async updateUser({ id, ...data }) {
-    await this.db.user.update({ where: { id }, data });
+    return await this.db.user.update({ where: { id }, data });
   }
   async deleteUser(id: string) {
-    await this.db.user.delete({ where: { id } });
+    return await this.db.user.delete({ where: { id } });
   }
   async linkAccount(data: AdapterAccount) {
-    await this.db.account.create({ data });
+    return await this.db.account.create({ data });
   }
   async unlinkAccount(provider_providerAccountId: {
     providerAccountId: string;
     provider: string;
   }) {
-    await this.db.account.delete({
+    return await this.db.account.delete({
       where: { provider_providerAccountId },
     });
   }
@@ -82,18 +82,18 @@ export class AuthRepository {
     userId: string;
     expires: Date;
   }) {
-    await this.db.session.create({ data });
+    return await this.db.session.create({ data });
   }
   async updateSession(
     session: Partial<AdapterSession> & Pick<AdapterSession, 'sessionToken'>,
   ) {
-    await this.db.session.update({
+    return await this.db.session.update({
       where: { sessionToken: session.sessionToken },
       data: session,
     });
   }
   async deleteSession(sessionToken: string) {
-    await this.db.session.delete({ where: { sessionToken } });
+    return await this.db.session.delete({ where: { sessionToken } });
   }
   async createVerificationToken(data: VerificationToken) {
     const verificationToken = await this.db.verificationToken.create({ data });
