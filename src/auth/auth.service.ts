@@ -6,14 +6,12 @@ import type {
   VerificationToken,
 } from '@auth/core/adapters';
 import { AuthRepository } from './auth.repository';
+import { Public } from 'src/helper/publicDecorator';
 
+@Public()
 @Injectable()
 export class AuthService {
-  authRepository: AuthRepository;
-
-  constructor(authRepository: AuthRepository) {
-    this.authRepository = authRepository;
-  }
+  constructor(private readonly authRepository: AuthRepository) {}
 
   async createUser(user: AdapterUser) {
     return await this.authRepository.createUser(user);

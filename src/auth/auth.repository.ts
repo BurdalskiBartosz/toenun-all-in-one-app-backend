@@ -23,11 +23,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
 export class AuthRepository {
-  db: PrismaService;
-
-  constructor(db: PrismaService) {
-    this.db = db;
-  }
+  constructor(private readonly db: PrismaService) {}
 
   async createUser({ id, ...data }: AdapterUser) {
     return await this.db.user.create({ data });
