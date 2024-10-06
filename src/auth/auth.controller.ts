@@ -20,7 +20,7 @@ import { Public } from 'src/decorators/Public';
 
 // TODO: Refactor, move it to separated module
 
-// @Public()
+@Public()
 @Controller('auth')
 @ApiTags('Auth')
 export class AuthController {
