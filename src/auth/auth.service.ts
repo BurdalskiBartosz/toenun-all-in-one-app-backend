@@ -6,7 +6,7 @@ import type {
   VerificationToken,
 } from '@auth/core/adapters';
 import { AuthRepository } from './auth.repository';
-import { Public } from 'src/helper/publicDecorator';
+import { Public } from 'src/decorators/Public';
 
 @Public()
 @Injectable()

@@ -16,9 +16,11 @@ import type {
   VerificationToken,
 } from '@auth/core/adapters';
 import { AuthService } from './auth.service';
+import { Public } from 'src/decorators/Public';
 
 // TODO: Refactor, move it to separated module
 
+// @Public()
 @Controller('auth')
 @ApiTags('Auth')
 export class AuthController {
