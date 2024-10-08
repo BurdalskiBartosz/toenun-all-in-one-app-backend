@@ -28,12 +28,15 @@ export class AuthRepository {
   async createUser({ id, ...data }: AdapterUser) {
     return await this.db.user.create({ data });
   }
+
   async getUser(id: string) {
     return await this.db.user.findUnique({ where: { id } });
   }
+
   async getUserByEmail(email: string) {
     return await this.db.user.findUnique({ where: { email } });
   }
+
   async getUserByAccount(provider_providerAccountId: {
     providerAccountId: string;
     provider: string;
@@ -44,15 +47,19 @@ export class AuthRepository {
     });
     return (account?.user as AdapterUser) ?? null;
   }
+
   async updateUser({ id, ...data }) {
     return await this.db.user.update({ where: { id }, data });
   }
+
   async deleteUser(id: string) {
     return await this.db.user.delete({ where: { id } });
   }
+
   async linkAccount(data: AdapterAccount) {
     return await this.db.account.create({ data });
   }
+
   async unlinkAccount(provider_providerAccountId: {
     providerAccountId: string;
     provider: string;
@@ -61,6 +68,7 @@ export class AuthRepository {
       where: { provider_providerAccountId },
     });
   }
+
   async getSessionAndUser(sessionToken: string) {
     const userAndSession = await this.db.session.findUnique({
       where: { sessionToken },
@@ -73,6 +81,7 @@ export class AuthRepository {
       session: AdapterSession;
     };
   }
+
   async createSession(data: {
     sessionToken: string;
     userId: string;
@@ -80,6 +89,7 @@ export class AuthRepository {
   }) {
     return await this.db.session.create({ data });
   }
+
   async updateSession(
     session: Partial<AdapterSession> & Pick<AdapterSession, 'sessionToken'>,
   ) {
@@ -88,9 +98,11 @@ export class AuthRepository {
       data: session,
     });
   }
+
   async deleteSession(sessionToken: string) {
     return await this.db.session.delete({ where: { sessionToken } });
   }
+
   async createVerificationToken(data: VerificationToken) {
     const verificationToken = await this.db.verificationToken.create({ data });
 
