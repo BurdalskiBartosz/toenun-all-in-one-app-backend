@@ -11,7 +11,6 @@ export class AuthMiddleware implements NestMiddleware {
     if (req.headers['x-auth-secret'] !== process.env.AUTH_SECRET) {
       throw new UnauthorizedException('Auth secret not provided or incorrect');
     }
-
     next();
   }
 }
