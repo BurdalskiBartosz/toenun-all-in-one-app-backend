@@ -7,14 +7,24 @@ import type {
 } from '@auth/core/adapters';
 import { AuthRepository } from './auth.repository';
 import { Public } from 'src/decorators/Public';
+import * as bcrypt from 'bcrypt';
 
 @Public()
 @Injectable()
 export class AuthService {
   constructor(private readonly authRepository: AuthRepository) {}
 
-  async createUser(user: AdapterUser) {
-    return await this.authRepository.createUser(user);
+  async createUser(user: AdapterUser & { password?: string }) {
+    let data = user;
+
+    if (user.password) {
+      const salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(user.password, salt);
+
+      data = { ...user, password: hashedPassword };
+    }
+
+    return await this.authRepository.createUser(data);
   }
 
   async getUserByEmail(email: string) {

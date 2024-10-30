@@ -25,7 +25,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post()
-  async createUser(@Body() user: AdapterUser) {
+  async createUser(@Body() user: AdapterUser & { password?: string }) {
     return await this.authService.createUser(user);
   }
 

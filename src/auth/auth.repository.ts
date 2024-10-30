@@ -1,15 +1,3 @@
-// Moved this code from @auth/prisma-adapter due to error:
-
-// (..)/dist/auth/auth.service.js:15
-// const prisma_adapter_1 = require("@auth/prisma-adapter");
-//                          ^
-
-// Error [ERR_REQUIRE_ESM]: require() of ES Module (..)/node_modules/@auth/prisma-adapter/index.js from (..)/dist/auth/auth.service.js not supported.
-// Instead change the require of index.js in (..)/dist/auth/auth.service.js to a dynamic import() which is available in all CommonJS modules.
-//     at Object.<anonymous> ((..)/dist/auth/auth.service.js:15:26) {
-//   code: 'ERR_REQUIRE_ESM'
-// }
-
 import { Injectable } from '@nestjs/common';
 import type {
   AdapterAccount,
@@ -25,7 +13,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 export class AuthRepository {
   constructor(private readonly db: PrismaService) {}
 
-  async createUser({ id, ...data }: AdapterUser) {
+  async createUser({ id, ...data }: AdapterUser & { password?: string }) {
     return await this.db.user.create({ data });
   }
 
