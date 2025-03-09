@@ -4,10 +4,9 @@ import { PrismaService } from './prisma.service';
 import { AuthMiddleware } from './middleware/Auth';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './guards/AuthGuard';
-import { NotesModule } from './App/modules/NotesModule';
 
 @Module({
-  imports: [AuthModule, NotesModule],
+  imports: [AuthModule],
   controllers: [],
   providers: [
     PrismaService,
