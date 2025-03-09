@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   Patch,
   Post,
@@ -15,14 +16,17 @@ import type {
   AdapterUser,
   VerificationToken,
 } from '@auth/core/adapters';
-import { AuthService } from './auth.service';
+import type { AuthService } from './auth.service';
 import { Public } from 'src/decorators/Public';
+import { AUTH_SERVICE } from './di-tokens';
 
 @Public()
 @Controller('auth')
 @ApiTags('Auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    @Inject(AUTH_SERVICE) private readonly authService: AuthService,
+  ) {}
 
   @Post()
   async createUser(@Body() user: AdapterUser & { password?: string }) {

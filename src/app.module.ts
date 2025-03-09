@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AuthModule } from './Auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { PrismaService } from './prisma.service';
 import { AuthMiddleware } from './middleware/Auth';
 import { APP_GUARD } from '@nestjs/core';

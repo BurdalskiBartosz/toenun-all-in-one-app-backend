@@ -6,7 +6,7 @@ import type {
   VerificationToken,
 } from '@auth/core/adapters';
 
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../../prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
